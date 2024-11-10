@@ -8,6 +8,7 @@ kotest-assertions-ktor = { module = "io.kotest.extensions:kotest-assertions-ktor
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-server-test = { module = "io.ktor:ktor-server-test-host-jvm", version.ref = "ktor" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.0.0" }
