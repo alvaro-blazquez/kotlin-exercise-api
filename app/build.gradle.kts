@@ -20,6 +20,10 @@ val functionalTestImplementation: Configuration by configurations.getting {
 dependencies {
     testImplementation(libs.kotest)
     functionalTestImplementation(libs.kotest)
+    functionalTestImplementation(libs.kotest.assertions.ktor)
+    functionalTestImplementation(libs.kotest.assertions.json)
+    functionalTestImplementation(libs.ktor.client.core)
+    functionalTestImplementation(libs.ktor.client.okhttp)
 }
 
 java {

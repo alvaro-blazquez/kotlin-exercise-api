@@ -1,8 +1,13 @@
 [versions]
 kotest = "5.9.1"
+ktor = "3.0.1"
 
 [libraries]
-kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest"}
+kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-ktor = { module = "io.kotest.extensions:kotest-assertions-ktor", version = "2.0.0" }
+kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.0.0" }
