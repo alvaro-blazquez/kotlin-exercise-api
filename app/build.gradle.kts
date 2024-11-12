@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    kotlin("plugin.serialization") version "2.0.20"
     application
     idea
 }
@@ -34,6 +35,12 @@ val functionalTestImplementation: Configuration by configurations.getting {
 }
 
 dependencies {
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+
     testImplementation(libs.kotest)
 
     integrationTestImplementation(libs.kotest)
