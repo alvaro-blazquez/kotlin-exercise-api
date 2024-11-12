@@ -68,4 +68,43 @@ class PostOrderRouteTest : FunSpec({
                 """.trimIndent()
         }
     }
+
+    test("get /orders/{orderId} should return a previously created order in a 200 response") {
+        testApplication {
+            application {
+                webModule()
+            }
+            client.post("/orders") {
+                contentType(ContentType.Application.Json)
+                accept(ContentType.Application.Json)
+                setBody(order)
+            }
+
+            val response = client.get("/orders/1") {
+                accept(ContentType.Application.Json)
+            }
+
+            response shouldHaveStatus HttpStatusCode.OK
+            response.body<String>() shouldEqualJson """
+                    {
+                        "orderId": 1,
+                        "items": [
+                          {
+                            "productId": "prod_001",
+                            "quantity": 2,
+                            "price": 15.5
+                          },
+                          {
+                            "productId": "prod_002",
+                            "quantity": 1,
+                            "price": 45.0
+                          }
+                        ],
+                        "orderDate": "$currentDateTime",
+                        "status": "PENDING",
+                        "totalAmount": 76.00
+                    }
+                """.trimIndent()
+        }
+    }
 })
