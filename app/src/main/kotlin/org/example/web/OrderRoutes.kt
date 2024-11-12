@@ -7,18 +7,18 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.util.reflect.typeInfo
-import org.example.domain.Order
+import org.example.web.dto.CreateOrderRequest
 
-val orders = mutableListOf<Order>()
+val orders = mutableListOf<CreateOrderRequest>()
 
 fun Route.orderRoutes() {
     route("/orders") {
         post {
             try {
-                val order = call.receive<Order>()
-                orders.add(order)
+                val createOrderRequest = call.receive<CreateOrderRequest>()
+                orders.add(createOrderRequest)
                 call.response.status(HttpStatusCode.Created)
-                call.respond(order, typeInfo<Order>())
+                call.respond(createOrderRequest, typeInfo<CreateOrderRequest>())
             } catch (e: Exception) {
                 e.printStackTrace()
                 System.err.println(e.message)
@@ -26,9 +26,9 @@ fun Route.orderRoutes() {
         }
         get("/{orderId}") {
             val orderId = call.parameters["orderId"]!!.toInt()
-            val order: Order? = orders.find { it.orderId == orderId }
+            val order: CreateOrderRequest? = orders.find { it.orderId == orderId }
             call.response.status(HttpStatusCode.OK)
-            call.respond(order, typeInfo<Order>())
+            call.respond(order, typeInfo<CreateOrderRequest>())
         }
 
     }
