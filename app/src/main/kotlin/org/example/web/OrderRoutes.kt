@@ -7,11 +7,12 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.util.reflect.typeInfo
+import org.example.domain.OrderService
 import org.example.web.dto.CreateOrderRequest
 
 val orders = mutableListOf<CreateOrderRequest>()
 
-fun Route.orderRoutes() {
+fun Route.orderRoutes(orderService: OrderService) {
     route("/orders") {
         post {
             try {

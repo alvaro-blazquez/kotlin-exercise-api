@@ -11,6 +11,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.example.domain.OrderService
 import org.example.web.webModule
 
 class PostOrderRouteTest : FunSpec({
@@ -34,10 +35,12 @@ class PostOrderRouteTest : FunSpec({
 
     val currentDateTime: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
+    val orderService = OrderService()
+
     test("post /orders with a new order should return the created order in a 201 response") {
         testApplication {
             application {
-                webModule()
+                webModule(orderService)
             }
             val response = client.post("/orders") {
                 contentType(ContentType.Application.Json)
@@ -72,7 +75,7 @@ class PostOrderRouteTest : FunSpec({
     test("get /orders/{orderId} should return a previously created order in a 200 response") {
         testApplication {
             application {
-                webModule()
+                webModule(orderService)
             }
             client.post("/orders") {
                 contentType(ContentType.Application.Json)
