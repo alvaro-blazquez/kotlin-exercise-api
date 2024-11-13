@@ -5,13 +5,12 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
-import org.example.domain.OrderService
 
-fun Application.webModule(orderService: OrderService) {
+fun Application.webModule() {
     install(ContentNegotiation) {
         json()
     }
     routing {
-        orderRoutes(orderService)
+        TODO("Add routes")
     }
 }
