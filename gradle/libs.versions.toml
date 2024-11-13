@@ -1,9 +1,11 @@
 [versions]
 kotest = "5.9.1"
 ktor = "3.0.1"
+mockk = "1.13.8"
 
 [libraries]
 kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 kotest-assertions-ktor = { module = "io.kotest.extensions:kotest-assertions-ktor", version = "2.0.0" }
 kotest-assertions-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

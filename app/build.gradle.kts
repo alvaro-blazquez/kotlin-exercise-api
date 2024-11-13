@@ -42,6 +42,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
 
     testImplementation(libs.kotest)
+    testImplementation(libs.mockk)
 
     integrationTestImplementation(libs.kotest)
     integrationTestImplementation(libs.ktor.server.test)
