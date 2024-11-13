@@ -15,36 +15,36 @@ import org.example.web.dto.OrderStatus
 
 class OrderServiceTest : FunSpec({
 
-    test("it should return the correct order given its id") {
-        val orders: List<Order> = listOf(
-            mockk<Order> {
-                every { orderId } returns 1
-                every { items } returns listOf<Item>(
-                    Item(
-                        productId = "prod1",
-                        quantity = 2,
-                        price = 200.0,
-                    )
+    val orders: List<Order> = listOf(
+        mockk<Order> {
+            every { orderId } returns 1
+            every { items } returns listOf<Item>(
+                Item(
+                    productId = "prod1",
+                    quantity = 2,
+                    price = 200.0,
                 )
-                every { orderDate } returns LocalDate(2022, 1, 1)
-                every { totalAmount } returns 400.0
-                every { status } returns OrderStatus.PENDING
-            },
-            mockk<Order> {
-                every { orderId } returns 2
-                every { items } returns listOf<Item>(
-                    Item(
-                        productId = "prod2",
-                        quantity = 4,
-                        price = 200.0,
-                    )
+            )
+            every { orderDate } returns LocalDate(2022, 1, 1)
+            every { totalAmount } returns 400.0
+            every { status } returns OrderStatus.PENDING
+        },
+        mockk<Order> {
+            every { orderId } returns 2
+            every { items } returns listOf<Item>(
+                Item(
+                    productId = "prod2",
+                    quantity = 4,
+                    price = 200.0,
                 )
-                every { orderDate } returns LocalDate(2022, 1, 1)
-                every { totalAmount } returns 800.0
-                every { status } returns OrderStatus.PENDING
-            }
-        )
+            )
+            every { orderDate } returns LocalDate(2022, 1, 1)
+            every { totalAmount } returns 800.0
+            every { status } returns OrderStatus.PENDING
+        }
+    )
 
+    test("it should return the correct order given its id") {
         val orderService = OrderService(orders)
 
         val order: Order = orderService.getOrderById(1)!!
@@ -102,5 +102,13 @@ class OrderServiceTest : FunSpec({
             every { totalAmount } returns 400.0
             every { status } returns OrderStatus.PENDING
         }
+    }
+
+    test("getAllOrders should return all orders") {
+        val orderService = OrderService(orders)
+
+        val actualOrders: List<Order> = orderService.getAllOrders()
+
+        actualOrders shouldBeEqual orders
     }
 })
