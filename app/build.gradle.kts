@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     kotlin("plugin.serialization") version "2.0.20"
+    id("io.ktor.plugin") version "3.0.1"
     application
     idea
 }
@@ -90,4 +91,11 @@ val functionalTest = task<Test>("functionalTest") {
 
     testClassesDirs = sourceSets["functionalTest"].output.classesDirs
     classpath = sourceSets["functionalTest"].runtimeClasspath
+}
+
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_21)
+        localImageName.set("myktorapp")
+    }
 }
