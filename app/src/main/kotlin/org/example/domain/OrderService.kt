@@ -16,5 +16,7 @@ class OrderService(orders: List<Order> = listOf()) {
 
     fun getAllOrders(): List<Order> = orders.toList()
 
-    fun getOrdersByDate(filterDate: LocalDate): List<Order> = TODO()
+    fun getOrdersByDate(filterDate: LocalDate): List<Order> = orders.filter {
+        it.orderDate == filterDate
+    }
 }

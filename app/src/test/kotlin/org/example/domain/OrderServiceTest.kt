@@ -38,7 +38,7 @@ class OrderServiceTest : FunSpec({
                     price = 200.0,
                 )
             )
-            every { orderDate } returns LocalDate(2022, 1, 1)
+            every { orderDate } returns LocalDate(2023, 1, 1)
             every { totalAmount } returns 800.0
             every { status } returns OrderStatus.PENDING
         }
@@ -110,5 +110,24 @@ class OrderServiceTest : FunSpec({
         val actualOrders: List<Order> = orderService.getAllOrders()
 
         actualOrders shouldBeEqual orders
+    }
+
+    test("getOrdersByDate should return all orders matching the date filter") {
+        val orderService = OrderService(orders)
+
+        val filterDate = LocalDate(2023, 1, 1)
+        val actualOrders: List<Order> = orderService.getOrdersByDate(filterDate)
+
+        actualOrders[0].orderId shouldBe 2
+        actualOrders[0].items shouldBeEqual listOf<Item>(
+            Item(
+                productId = "prod2",
+                quantity = 4,
+                price = 200.0,
+            )
+        )
+        actualOrders[0].orderDate shouldBeEqual LocalDate(2023, 1, 1)
+        actualOrders[0].totalAmount shouldBe 800.0
+        actualOrders[0].status shouldBe OrderStatus.PENDING
     }
 })
