@@ -7,7 +7,9 @@ import kotlinx.datetime.toLocalDateTime
 import org.example.web.dto.CreateOrderRequest
 import org.example.web.dto.Item
 import org.example.web.dto.OrderStatus
+import kotlinx.serialization.Serializable
 
+@Serializable
 class Order private constructor(
     val orderId: Int,
     val items: List<Item>,

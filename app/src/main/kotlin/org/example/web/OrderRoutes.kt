@@ -7,6 +7,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.util.reflect.typeInfo
+import org.example.domain.Order
 import org.example.domain.OrderService
 import org.example.web.dto.CreateOrderRequest
 
@@ -30,6 +31,11 @@ fun Route.orderRoutes(orderService: OrderService) {
             val order: CreateOrderRequest? = orders.find { it.orderId == orderId }
             call.response.status(HttpStatusCode.OK)
             call.respond(order, typeInfo<CreateOrderRequest>())
+        }
+        get {
+            val orders = orderService.getAllOrders()
+            call.response.status(HttpStatusCode.OK)
+            call.respond(orders, typeInfo<List<Order>>())
         }
 
     }

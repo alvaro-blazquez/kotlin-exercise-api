@@ -44,6 +44,7 @@ dependencies {
     testImplementation(libs.kotest)
     testImplementation(libs.mockk)
 
+    integrationTestImplementation(libs.mockk)
     integrationTestImplementation(libs.kotest)
     integrationTestImplementation(libs.ktor.server.test)
     integrationTestImplementation(libs.kotest.assertions.ktor)

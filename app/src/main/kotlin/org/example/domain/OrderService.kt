@@ -12,4 +12,6 @@ class OrderService(orders: List<Order> = listOf()) {
         orders.add(order)
         return order
     }
+
+    fun getAllOrders(): List<Order> = TODO()
 }
