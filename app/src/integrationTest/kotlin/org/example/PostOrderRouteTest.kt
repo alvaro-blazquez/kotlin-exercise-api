@@ -272,4 +272,29 @@ class PostOrderRouteTest : FunSpec({
             verify(exactly = 1) { orderService.getOrdersByDate(filterDate) }
         }
     }
+
+    test("get /orders/{orderId} should return 404 if the order does not exist") {
+        testApplication {
+            application {
+                webModule(orderService)
+            }
+            client.post("/orders") {
+                contentType(ContentType.Application.Json)
+                accept(ContentType.Application.Json)
+                setBody(order)
+            }
+
+            val response = client.get("/orders/2") {
+                accept(ContentType.Application.Json)
+            }
+
+            response shouldHaveStatus HttpStatusCode.NotFound
+            response.body<String>() shouldEqualJson """
+                {
+                    "statusCode": 404,
+                    "message": "Order with orderId 2 not found"
+                }
+            """.trimIndent()
+        }
+    }
 })

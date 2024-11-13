@@ -8,11 +8,15 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.util.reflect.typeInfo
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 import org.example.domain.Order
 import org.example.domain.OrderService
 import org.example.web.dto.CreateOrderRequest
 
 val orders = mutableListOf<CreateOrderRequest>()
+
+@Serializable
+data class NotFoundError(val statusCode: Int, val message: String)
 
 fun Route.orderRoutes(orderService: OrderService) {
     route("/orders") {
@@ -30,8 +34,18 @@ fun Route.orderRoutes(orderService: OrderService) {
         get("/{orderId}") {
             val orderId = call.parameters["orderId"]!!.toInt()
             val order: CreateOrderRequest? = orders.find { it.orderId == orderId }
-            call.response.status(HttpStatusCode.OK)
-            call.respond(order, typeInfo<CreateOrderRequest>())
+            if(order != null) {
+                call.response.status(HttpStatusCode.OK)
+                call.respond(order, typeInfo<CreateOrderRequest>())
+            } else {
+                call.response.status(HttpStatusCode.NotFound)
+                call.respond(
+                    NotFoundError(
+                        HttpStatusCode.NotFound.value,
+                        "Order with orderId $orderId not found"
+                    ), typeInfo<NotFoundError>()
+                )
+            }
         }
         get {
             if (call.request.queryParameters.contains("date")) {
