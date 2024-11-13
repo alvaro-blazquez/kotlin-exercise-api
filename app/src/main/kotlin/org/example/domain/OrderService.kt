@@ -1,6 +1,7 @@
 package org.example.domain
 
 import org.example.web.dto.CreateOrderRequest
+import kotlinx.datetime.LocalDate
 
 class OrderService(orders: List<Order> = listOf()) {
     val orders: MutableList<Order> = orders.toMutableList()
@@ -14,4 +15,6 @@ class OrderService(orders: List<Order> = listOf()) {
     }
 
     fun getAllOrders(): List<Order> = orders.toList()
+
+    fun getOrdersByDate(filterDate: LocalDate): List<Order> = TODO()
 }

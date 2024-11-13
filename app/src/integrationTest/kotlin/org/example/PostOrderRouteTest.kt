@@ -193,4 +193,83 @@ class PostOrderRouteTest : FunSpec({
             verify(exactly = 1) { orderService.getAllOrders() }
         }
     }
+
+    test("get /orders?date=<filter_date> should allow filtering orders by date and return matching orders in a 200 response") {
+
+        val filterDate = LocalDate(2023, 1, 1)
+
+        val filteredOrders: List<Order> = listOf(
+            mockk<Order> {
+                every { orderId } returns 1
+                every { items } returns listOf<Item>(
+                    Item(
+                        productId = "prod_001",
+                        quantity = 2,
+                        price = 15.5,
+                    )
+                )
+                every { orderDate } returns LocalDate(2023, 1, 1)
+                every { totalAmount } returns 31.0
+                every { status } returns OrderStatus.PENDING
+            },
+            mockk<Order> {
+                every { orderId } returns 2
+                every { items } returns listOf<Item>(
+                    Item(
+                        productId = "prod_002",
+                        quantity = 2,
+                        price = 15.5,
+                    )
+                )
+                every { orderDate } returns LocalDate(2023, 1, 1)
+                every { totalAmount } returns 31.0
+                every { status } returns OrderStatus.PENDING
+            }
+        )
+
+        every { orderService.getOrdersByDate(filterDate) } returns filteredOrders
+
+        testApplication {
+            application {
+                webModule(orderService)
+            }
+
+            val response = client.get("/orders?date=2023-01-01") {
+                accept(ContentType.Application.Json)
+            }
+
+            response shouldHaveStatus HttpStatusCode.OK
+            response.body<String>() shouldEqualJson """
+                    [
+                        {
+                            "orderId": 1,
+                            "items": [
+                              {
+                                "productId": "prod_001",
+                                "quantity": 2,
+                                "price": 15.5
+                              }
+                            ],
+                            "orderDate": "${LocalDate(2023, 1, 1)}",
+                            "status": "PENDING",
+                            "totalAmount": 31.00
+                        },
+                        {
+                            "orderId": 2,
+                            "items": [
+                              {
+                                "productId": "prod_002",
+                                "quantity": 2,
+                                "price": 15.5
+                              }
+                            ],
+                            "orderDate": "${LocalDate(2023, 1, 1)}",
+                            "status": "PENDING",
+                            "totalAmount": 31.00
+                        }
+                    ]
+                """.trimIndent()
+            verify(exactly = 1) { orderService.getOrdersByDate(filterDate) }
+        }
+    }
 })
